@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 5336777195481549999}
   m_Layer: 3
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -421,6 +421,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 150
   currentHealth: 0
+  scoreManager: {fileID: 0}
 --- !u!114 &5336777195481549999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,7 +436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 0
   baseTime: 1
-  projectile: {fileID: 5859253343808517121, guid: e64f760b99512864abb85743a98ba54f, type: 3}
+  projectile: {fileID: 2306507974258398112, guid: 363f464afdee07141b342cbcef274561, type: 3}
   thePlayer: {fileID: 0}
   anim: {fileID: 6363906580716655514}
   firePoint: {fileID: 6016084001613784824}

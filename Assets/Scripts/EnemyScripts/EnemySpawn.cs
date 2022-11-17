@@ -22,7 +22,7 @@ public class EnemySpawn : MonoBehaviour
 
     void SpawnEnemy()
     {
-        Vector3 pos = new Vector3(Random.Range(-5.0f, 5.0f), Random.Range(-5.0f, 5.0f), Random.Range(-5.0f, 5.0f));
+        Vector3 pos = new Vector3(Random.Range(-5.0f, 5.0f), Random.Range(-3.0f, 3.0f), Random.Range(3f, 5.0f));
         Instantiate(enemy, pos, Quaternion.identity);
     }
 }

@@ -11,6 +11,10 @@ public class ARCursor : MonoBehaviour
     public ARRaycastManager raycastManager;
     public GameObject firePoint;
 
+    //FUCK YOU
+    public GameObject line;
+
+    
     public int ammo;
     public float gunDelay;
     [HideInInspector] public float timer;
@@ -20,29 +24,28 @@ public class ARCursor : MonoBehaviour
 
     public LayerMask damageable;
     public int damage;
+    Camera mainCam;
+
+    public GameObject particleEffect;
 
 
 
     void Start()
     {
-        cursorChildObject.SetActive(useCursor);
         minigunAnim.speed = 0;
         canShoot = true;
         timer = 0;
+        mainCam = Camera.main;
 
     }
 
     void Update()
     {
+        //shit code
+        Vector3 ray = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0f));
+        line.transform.position = transform.position;
 
-
-
-
-
-        if (useCursor)
-        {
-            UpdateCursor();
-        }
+        Debug.DrawRay(ray, Vector3.forward, Color.blue);
 
         //Need to include shooting minigun 
 
@@ -65,30 +68,22 @@ public class ARCursor : MonoBehaviour
 
                 if(canShoot)
                 {
-                    if (useCursor)
+                    timer = gunDelay;
+                    ammo -=1;
+                    Debug.DrawRay(ray, Vector3.forward, Color.green);
+                    particleEffect.SetActive(true);
+
+                    RaycastHit hit;
+
+                    if(Physics.Raycast(ray, transform.TransformDirection(Vector3.forward), out hit, 100, damageable))
                     {
-                        //GameObject.Instantiate(objectToPlace, transform.position, transform.rotation);
-                        timer = gunDelay;
-                        ammo -=1;
-                        Vector3 forward = firePoint.transform.TransformDirection(Vector3.forward) * 10;
-                        Debug.DrawRay(firePoint.transform.position, forward, Color.green);
-
-                        RaycastHit hit;
-                        if(Physics.Raycast(firePoint.transform.position, transform.TransformDirection(Vector3.forward), out hit, 100, damageable))
+                        if(hit.transform.tag == "enemy")
                         {
-
+                            Debug.Log("HIT ENEMY");
                             hit.collider.GetComponent<EnemyHealth>().takeDamage(damage);
-                            
                         }
-
-                    }
-                    else
-                    {
-                        List<ARRaycastHit> hits = new List<ARRaycastHit>();
-                        raycastManager.Raycast(Input.GetTouch(0).position, hits, UnityEngine.XR.ARSubsystems.TrackableType.Planes);
-                        if (hits.Count > 0)
-                        {
-                            //GameObject.Instantiate(objectToPlace, hits[0].pose.position, hits[0].pose.rotation);
+                        else{
+                            Debug.Log("MISSED ENEMY");
                         }
                     }
                 }
@@ -96,24 +91,12 @@ public class ARCursor : MonoBehaviour
             if (touch.phase == TouchPhase.Ended)
             {
                 minigunAnim.speed = 0;
+                particleEffect.SetActive(false);
             }
         }
 
+        line.transform.position = ray + (Camera.main.transform.forward * 100);
 
-    }
 
-    void UpdateCursor()
-    {
-        Vector2 screenPosition = Camera.main.ViewportToScreenPoint(new Vector2(0.5f, 0.5f));
-        List<ARRaycastHit> hits = new List<ARRaycastHit>();
-        raycastManager.Raycast(screenPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.Planes);
-
-        if (hits.Count > 0)
-        {
-            transform.position = hits[0].pose.position;
-            transform.rotation = hits[0].pose.rotation;
-        }
-
-        //pointless
     }
 }

@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int score = 0;
+    public TMP_Text scoreText;
+    public EnemySpawn enemySpawner;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        scoreText.text = ("Score: " + score);
+
+
+        if(score >= 10)
+        {
+            enemySpawner.baseTime = 8;
+        }
+
+        if(score >= 25)
+        {
+            enemySpawner.baseTime = 5;
+        }
+
+        if(score >= 50)
+        {
+            enemySpawner.baseTime = 3;
+        }
     }
 }

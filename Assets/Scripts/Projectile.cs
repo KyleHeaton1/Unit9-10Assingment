@@ -29,7 +29,7 @@ public class Projectile : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            playerManager.currentHealth -= damage;
+            playerManager.HurtPlayer(damage);
             Destroy(gameObject);
         }
     }

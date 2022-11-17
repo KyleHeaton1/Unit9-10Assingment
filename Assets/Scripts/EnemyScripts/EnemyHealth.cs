@@ -7,11 +7,16 @@ public class EnemyHealth : MonoBehaviour
     public int startingHealth;
     public int currentHealth;
 
+    public ScoreManager scoreManager;
+    GameObject scoreManagerObject;
+
 
     // Start is called before the first frame update
     void Start()
     {
         currentHealth = startingHealth;
+        scoreManagerObject = GameObject.Find("ScoreManager");
+        scoreManager = scoreManagerObject.GetComponent<ScoreManager>();
     }
 
     // Update is called once per frame
@@ -19,7 +24,7 @@ public class EnemyHealth : MonoBehaviour
     {
         if (currentHealth <= 0)
         {
-            //score++
+            scoreManager.score += 1;
             Destroy(gameObject);
         }
     }
